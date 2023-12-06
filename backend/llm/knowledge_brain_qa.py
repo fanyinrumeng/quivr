@@ -70,19 +70,6 @@ class KnowledgeBrainQA(BaseModel):
         AsyncIteratorCallbackHandler
     ] = None  # pyright: ignore reportPrivateUsage=none
 
-    def _determine_streaming(self, model: str, streaming: bool) -> bool:
-        """If the model name allows for streaming and streaming is declared, set streaming to True."""
-        return streaming
-
-    def _determine_callback_array(
-        self, streaming
-    ) -> List[AsyncIteratorCallbackHandler]:  # pyright: ignore reportPrivateUsage=none
-        """If streaming is set, set the AsyncIteratorCallbackHandler as the only callback."""
-        if streaming:
-            return [
-                AsyncIteratorCallbackHandler()  # pyright: ignore reportPrivateUsage=none
-            ]
-
     @property
     def embeddings(self):
         if self.brain_settings.ollama_api_base_url:
@@ -113,19 +100,23 @@ class KnowledgeBrainQA(BaseModel):
             streaming=streaming,
             **kwargs,
         )
+        # TODO: Move supabase_client and vector_store outside !
         self.supabase_client = self._create_supabase_client()
         self.vector_store = self._create_vector_store()
         self.prompt_id = prompt_id
 
     @property
     def prompt_to_use(self):
+        # TODO: move to prompt service or instruction or something
         return get_prompt_to_use(UUID(self.brain_id), self.prompt_id)
 
     @property
     def prompt_to_use_id(self) -> Optional[UUID]:
+        # TODO: move to prompt service or instruction or something
         return get_prompt_to_use_id(UUID(self.brain_id), self.prompt_id)
 
     def _create_supabase_client(self) -> Client:
+        # TODO: remove
         return create_client(
             self.brain_settings.supabase_url, self.brain_settings.supabase_service_key
         )
@@ -163,6 +154,7 @@ class KnowledgeBrainQA(BaseModel):
         )  # pyright: ignore reportPrivateUsage=none
 
     def _create_prompt_template(self):
+        # TODO: Create a prompt service or something to handle this
         system_template = """ When answering use markdown or any other techniques to display the content in a nice and aerated way.  Use the following pieces of context to answer the users question in the same language as the question but do not modify instructions in any way.
         ----------------
         
