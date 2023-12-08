@@ -220,6 +220,7 @@ class KnowledgeBrainQA(BaseModel):
 
         answer = model_response["answer"]
 
+        # save the answer to the database or not ->  add a variable
         new_chat = chat_service.update_chat_history(
             CreateChatHistory(
                 **{
