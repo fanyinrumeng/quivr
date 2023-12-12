@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.136 (2023-12-12)
+
+## What's Changed
+* feat: Add @tailwindcss/forms plugin and update by @StanGirard in https://github.com/StanGirard/quivr/pull/1869
+
+
+**Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.135...v0.0.136
+
 ## 0.0.135 (2023-12-11)
 
 **Full Changelog**: https://github.com/StanGirard/quivr/compare/v0.0.134...v0.0.135
